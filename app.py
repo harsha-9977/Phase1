@@ -15,10 +15,15 @@ st.title("Crime Analysis & Prediction Dashboard")
 @st.cache_data
 def load_data():
     data = load_crime_data()
-    print("Loaded Data:", data)  # Check what is returned
+    # print("Loaded Data:", data)  # Check what is returned
     return data
 
 crime_data = load_data()
+
+# if crime_data is not None:
+#     st.write("Loaded Districts:", sorted(crime_data['DISTRICT'].dropna().unique()))
+# else:
+#     st.error("Failed to load crime data.")
 
 
 # --- Sidebar Filters
