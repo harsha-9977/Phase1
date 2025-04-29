@@ -19,7 +19,12 @@ def load_data():
     return data
 
 crime_data = load_data()
-print(crime_data.head())  # Correct
+
+if crime_data is not None:
+    print(crime_data.head())  # This will print the first few rows if data is available
+else:
+    print("No data available or failed to load data.")
+ # Correct
 
 
 # --- Sidebar Filters
