@@ -4,7 +4,7 @@ import pandas as pd
 def load_crime_data():
     try:
 
-        client = MongoClient("mongodb+srv://root:ananya@cluster0.mongodb.net/nowhere?retryWrites=true&w=majority")
+        client = MongoClient('mongodb://localhost:27017/')        
         db = client["nowhere"]
         collection = db["crimes"]
 
