@@ -3,9 +3,10 @@ import pandas as pd
 
 def load_crime_data():
     try:
-        client = MongoClient("mongodb://localhost:27017/")  # Connect to MongoDB
-        db = client["nowhere"]  # Your database name
-        collection = db["crimes"]  # Your collection name
+
+        client = MongoClient("mongodb+srv://root:ananya@cluster0.mongodb.net/nowhere?retryWrites=true&w=majority")
+        db = client["nowhere"]
+        collection = db["crimes"]
 
         # Fetch data from MongoDB and convert it into a DataFrame
         data = list(collection.find())
