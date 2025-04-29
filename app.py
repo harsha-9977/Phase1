@@ -31,8 +31,7 @@ districts = st.sidebar.multiselect(
 
 offense_types = st.sidebar.multiselect(
     "Select Crime Type(s):",
-    sorted(crime_data['OFFENSE_CODE_GROUP'].dropna().unique())
-)
+    sorted(crime_data['OFFENSE_CODE_GROUP'].dropna().unique()))
 
 years = st.sidebar.multiselect(
     "Select Year(s):",
