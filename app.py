@@ -11,7 +11,7 @@ from src.predictive_model import load_model, make_prediction
 st.set_page_config(page_title="Crime Dashboard", layout="wide")
 
 # --- Title
-st.title("📊 Crime Analysis & Prediction Dashboard")
+st.title("Crime Analysis & Prediction Dashboard")
 
 # --- Load Data
 @st.cache_data
