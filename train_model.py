@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from pymongo import MongoClient
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -8,8 +9,14 @@ import joblib
 # Ensure model directory exists
 os.makedirs("models", exist_ok=True)
 
-# Load and prepare data
-df = pd.read_csv("data/crime.csv", encoding='latin1')
+client = MongoClient('mongodb://localhost:27017/')  
+db = client['nowhere']  
+collection = db['crimes']  
+
+
+data = list(collection.find())
+df = pd.DataFrame(data)
+
 df = df[["DISTRICT", "DAY_OF_WEEK", "HOUR", "OFFENSE_CODE_GROUP"]].dropna()
 
 # Encode categorical features

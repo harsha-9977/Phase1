@@ -1,5 +1,3 @@
-# src/app.py
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -16,7 +14,9 @@ st.title("Crime Analysis & Prediction Dashboard")
 # --- Load Data
 @st.cache_data
 def load_data():
-    return load_crime_data()
+    data = load_crime_data()
+    print("Loaded Data:", data)  # Check what is returned
+    return data
 
 crime_data = load_data()
 
@@ -58,6 +58,7 @@ if years:
 if months:
     filtered_data = filtered_data[filtered_data['MONTH'].isin(months)]
 
+st.markdown("---") 
 # --- Main Metrics
 st.subheader("📈 Key Statistics")
 col1, col2, col3 = st.columns(3)
@@ -83,10 +84,28 @@ st.markdown("---")
 
 # --- Heatmap Visualization
 st.subheader("🔥 Crime Risk Heatmap")
+# --- Map Type Selection
+# --- Map Type Selection
+map_type = st.selectbox(
+    "Select Map Type:",
+    ["Light", "Dark", "Satellite", "Streets"]
+)
+
+# Map style configuration based on user selection
+map_styles = {
+    "Light": "mapbox://styles/mapbox/light-v10",
+    "Dark": "mapbox://styles/mapbox/dark-v10",
+    "Satellite": "mapbox://styles/mapbox/satellite-streets-v11",
+    "Streets": "mapbox://styles/mapbox/streets-v11"
+}
+
+# Using the selected map type
+selected_map_style = map_styles.get(map_type, map_styles["Light"])
 
 if not filtered_data.empty and 'Lat' in filtered_data.columns and 'Long' in filtered_data.columns:
     filtered_data = filtered_data.dropna(subset=['Lat', 'Long'])
 
+    # Define heatmap layer
     heatmap_layer = pdk.Layer(
         "HeatmapLayer",
         data=filtered_data,
@@ -96,25 +115,28 @@ if not filtered_data.empty and 'Lat' in filtered_data.columns and 'Long' in filt
         get_weight=1
     )
 
+    # Set the view for the map
     view_state = pdk.ViewState(
         latitude=filtered_data['Lat'].mean(),
         longitude=filtered_data['Long'].mean(),
         zoom=11,
-        pitch=50,
+        pitch=50
     )
 
+    # Create the deck with map style and heatmap layer
     heatmap = pdk.Deck(
         layers=[heatmap_layer],
         initial_view_state=view_state,
+        map_style=selected_map_style,  # Apply the selected map style
         tooltip={"text": "Crime Hotspot"}
     )
 
+    # Display the map
     st.pydeck_chart(heatmap)
 
 else:
     st.warning("No location data available to plot heatmap.")
 
-st.markdown("---")
 
 # --- Monthly Crime Trends
 st.subheader("📅 Monthly Crime Trends")
@@ -182,4 +204,4 @@ if predict_button:
     st.success(f"🔮 Prediction: {prediction}")
 
 # --- Footer
-st.caption("Built with  Falcons For the Future with the Past.")
+st.caption("Built with Falcons For the Future with the Past.")
