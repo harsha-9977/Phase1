@@ -19,6 +19,8 @@ def load_data():
     return data
 
 crime_data = load_data()
+print(crime_data.head())  # Correct
+
 
 # --- Sidebar Filters
 st.sidebar.header("Filter the Data:")

@@ -8,14 +8,14 @@ def load_crime_data():
         db = client["nowhere"]
         collection = db["crimes"]
 
-        # Fetch data from MongoDB and convert it into a DataFrame
+        
         data = list(collection.find())
         if not data:
-            return None  # Return None if no data is found
+            return None 
 
         df = pd.DataFrame(data)
-        df = df.drop(columns=['_id'], errors='ignore')  # Drop the _id column if present
+        df = df.drop(columns=['_id'], errors='ignore') 
         return df
     except Exception as e:
         print(f"Error loading data: {e}")
-        return None  # Return None if there's any error during the process
+        return None  
